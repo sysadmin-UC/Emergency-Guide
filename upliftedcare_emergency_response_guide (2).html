@@ -13,9 +13,9 @@
         header { position: sticky; top: 0; z-index: 40; background-color: rgba(2, 6, 23, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid #1e293b; padding: 12px; }
         .header-top { display: flex; align-items: center; justify-content: space-between; }
         .brand { display: flex; align-items: center; gap: 10px; }
-        .brand-icon { background-color: #dc2626; color: white; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .brand-icon { background-color: #dc2626; color: white; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; }
         .brand-text h1 { font-size: 16px; font-weight: 700; color: #ffffff; }
-        .brand-text p { font-size: 10px; font-weight: 700; color: #f87171; text-transform: uppercase; tracking: 1px; }
+        .brand-text p { font-size: 10px; font-weight: 700; color: #f87171; text-transform: uppercase; letter-spacing: 0.5px; }
         
         .btn-call { background-color: #dc2626; color: white; padding: 8px 12px; border-radius: 10px; text-decoration: none; font-size: 12px; font-weight: 900; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
         .btn-call:active { transform: scale(0.95); }
@@ -45,7 +45,7 @@
         .hazard-card { background-color: rgba(30, 41, 59, 0.9); border: 1px solid rgba(51, 65, 85, 0.6); border-radius: 12px; padding: 12px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; color: inherit; cursor: pointer; width: 100%; text-align: left; }
         .hazard-card:active { transform: scale(0.99); background-color: #1e293b; }
         .hazard-info { display: flex; align-items: center; gap: 12px; }
-        .hazard-badge { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; flex-shrink: 0; }
+        .hazard-badge { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; flex-shrink: 0; font-size: 18px; }
         .hazard-text h3 { font-size: 13px; font-weight: 700; color: #f8fafc; }
         .hazard-text p { font-size: 11px; color: #94a3b8; }
         .tag { font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; background-color: #020617; border: 1px solid #334155; color: #cbd5e1; }
@@ -58,7 +58,7 @@
         .detail-box li { margin-bottom: 6px; color: #cbd5e1; }
 
         /* Navigation */
-        nav { position: fixed; bottom: 0; max-width: 450px; width: 100%; background-color: rgba(2, 6, 23, 0.95); backdrop-filter: blur(8px); border-top: 1px solid #1e293b; padding: 8px 16px; display: flex; justify-content: space-around; z-activity: 40; }
+        nav { position: fixed; bottom: 0; max-width: 450px; width: 100%; background-color: rgba(2, 6, 23, 0.95); backdrop-filter: blur(8px); border-top: 1px solid #1e293b; padding: 8px 16px; display: flex; justify-content: space-around; z-index: 40; }
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 10px; color: #94a3b8; text-decoration: none; border: none; background: none; cursor: pointer; font-weight: 600; }
         .nav-item.active { color: #ef4444; font-weight: 700; }
 
@@ -280,7 +280,7 @@
                                 <ul>
                                     <li><strong>P</strong>ull safety pin.</li>
                                     <li><strong>A</strong>im at base of fire.</li>
-                                    <li><strong>S</strong>queeze lever slowly.</li>
+                                    <li><strong>S</strong>squeeze lever slowly.</li>
                                     <li><strong>S</strong>weep side-to-side.</li>
                                 </ul>
                             </div>
