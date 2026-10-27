@@ -164,23 +164,19 @@
                     {/* MAIN CONTENT CANVAS */}
                     <main className="p-4 flex-1">
 
-                        {/* Quick Location Alert Bar */}
-                        <div className="bg-slate-800/80 border border-slate-700/80 rounded-xl p-3 mb-4 text-xs space-y-1">
-                            <div className="flex items-center justify-between text-slate-300 font-medium">
-                                <span className="flex items-center gap-1 text-red-400 font-bold">
-                                    <i data-lucide="map-pin" className="w-3.5 h-3.5"></i> {facility.name}
-                                </span>
-                                <span className="text-slate-400 text-[10px] truncate max-w-[150px]">{facility.address}</span>
-                            </div>
-                            <div className="grid grid-cols-2 gap-2 text-[11px] pt-1 border-t border-slate-700/50">
-                                <div><span className="text-slate-400">Shelter:</span> <span className="text-slate-200 font-semibold">{facility.shelter}</span></div>
-                                <div><span className="text-slate-400">Evac Zone:</span> <span className="text-slate-200 font-semibold">{facility.evacuation}</span></div>
-                            </div>
-                        </div>
-
                         {/* VIEW MODE: INCIDENT LIST / GUIDES */}
                         {viewMode === 'incidents' && !selectedIncident && (
                             <div>
+                                {/* Location Header Bar */}
+                                <div className="bg-slate-800/80 border border-slate-700/80 rounded-xl p-3 mb-4 text-xs">
+                                    <div className="flex items-center justify-between text-slate-300 font-medium">
+                                        <span className="flex items-center gap-1 text-red-400 font-bold">
+                                            <i data-lucide="map-pin" className="w-3.5 h-3.5"></i> Active Location: {facility.name}
+                                        </span>
+                                        <span className="text-slate-400 text-[10px] truncate max-w-[150px]">{facility.address}</span>
+                                    </div>
+                                </div>
+
                                 {/* Search Bar */}
                                 <div className="relative mb-4">
                                     <i data-lucide="search" className="w-4 h-4 absolute left-3 top-3 text-slate-400"></i>
@@ -322,6 +318,12 @@
 
         // --- SUB-COMPONENT: DETAILED INCIDENT ACTIONS ---
         function IncidentDetailModule({ incidentId, facility, onBack }) {
+            // Incidents requiring Shelter in Place
+            const isShelterIncident = ['tornado', 'earthquake', 'power-outage'].includes(incidentId);
+            
+            // Incidents requiring Evacuation
+            const isEvacIncident = ['fire', 'active-shooter', 'bomb-threat', 'suspicious-package'].includes(incidentId);
+
             const renderContent = () => {
                 switch (incidentId) {
                     case 'active-shooter':
@@ -390,7 +392,6 @@
                                 <div className="bg-orange-950/40 border border-orange-800 p-3 rounded-xl text-xs space-y-1">
                                     <span className="text-orange-400 font-bold block">Fire Alarm Signals:</span>
                                     <p className="text-slate-200 font-medium">Continuous Audible Buzz + Flashing White Strobe Light</p>
-                                    <span className="text-slate-400 text-[11px] block mt-1">Assembly Point: <strong>{facility.evacuation}</strong></span>
                                 </div>
 
                                 <div className="bg-slate-800 p-3.5 rounded-xl border border-slate-700 space-y-2">
@@ -409,7 +410,7 @@
                                     <div className="grid grid-cols-2 gap-2 text-xs">
                                         <div className="bg-slate-900 p-2 rounded border border-slate-700"><strong>P</strong>ull safety pin</div>
                                         <div className="bg-slate-900 p-2 rounded border border-slate-700"><strong>A</strong>im at base of fire</div>
-                                        <div className="bg-slate-900 p-2 rounded border border-slate-700"><strong>S</strong>queeze lever slowly</div>
+                                        <div className="bg-slate-900 p-2 rounded border border-slate-700"><strong>S</strong>squeeze lever slowly</div>
                                         <div className="bg-slate-900 p-2 rounded border border-slate-700"><strong>S</strong>weep side-to-side</div>
                                     </div>
                                 </div>
@@ -449,19 +450,48 @@
                     case 'tornado':
                         return (
                             <div className="space-y-3 text-xs">
-                                <div className="bg-sky-950/40 border border-sky-800 p-3 rounded-xl space-y-1">
-                                    <span className="font-bold text-sky-400 block text-sm">Designated Facility Shelter Zone:</span>
-                                    <p className="text-slate-100 font-semibold">{facility.shelter}</p>
+                                <div className="bg-slate-800 p-3.5 rounded-xl border border-slate-700 space-y-2">
+                                    <h4 className="font-bold text-sky-400">Leadership Actions</h4>
+                                    <ul className="space-y-1.5 text-slate-300 list-disc pl-5">
+                                        <li>Leadership will monitor severe weather as it is occurring and send emails and/or text messages to staff updating them on the location and direction of the storm.</li>
+                                        <li>Team Leads and Managers will reach out to their staff to confirm their locations and safety. Any actively working staff members that cannot be contacted are reported to Leadership Team immediately.</li>
+                                        <li>If storm directly affects one of the UpliftedCare locations, instructions will be paged overhead and/or in person to evacuate to the designated storm shelters.</li>
+                                    </ul>
                                 </div>
 
                                 <div className="bg-slate-800 p-3.5 rounded-xl border border-slate-700 space-y-2">
                                     <h4 className="font-bold text-slate-200">Field / General Staff Actions</h4>
                                     <ul className="space-y-1.5 text-slate-300 list-disc pl-5">
+                                        <li>Staff are encouraged to monitor changing weather conditions through the use of radio, internet or text communications.</li>
+                                        <li>If you are in an automobile, park it and get to an appropriate shelter. DO NOT attempt to outrun the storm and DO NOT park under an overpass.</li>
+                                        <li>If you are in a public location, listen for emergency instructions.</li>
                                         <li>Get to lowest level using stairs (<strong>DO NOT use elevators</strong>).</li>
                                         <li>Shelter in interior windowless rooms or corridors.</li>
                                         <li>Protect head/neck with blankets, mattresses, or sturdy furniture.</li>
                                         <li>Avoid sheltering directly under heavy objects on upper floors.</li>
                                         <li>Do not shelter in structures without foundations (trailers/sheds).</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        );
+
+                    case 'earthquake':
+                        return (
+                            <div className="space-y-3 text-xs">
+                                <div className="bg-slate-800 p-3.5 rounded-xl border border-slate-700 space-y-2">
+                                    <h4 className="font-bold text-amber-400">During Earthquake (Drop, Cover, Hold)</h4>
+                                    <ul className="space-y-1.5 text-slate-300 list-disc pl-5">
+                                        <li>If indoors: Stay indoors. Crawl under sturdy furniture and hold on.</li>
+                                        <li>Move to an inside wall or inside doorway. Stay away from glass/windows.</li>
+                                        <li>If outside: Stay in the open away from buildings, trees, and power lines.</li>
+                                        <li>DO NOT use candles, matches, or open flames.</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-slate-800 p-3.5 rounded-xl border border-slate-700 space-y-2">
+                                    <h4 className="font-bold text-red-400">After the Shaking</h4>
+                                    <ul className="space-y-1.5 text-slate-300 list-disc pl-5">
+                                        <li>Evacuate the building once shaking stops (DO NOT use elevators).</li>
+                                        <li>Be wary of aftershocks. Report utility leaks immediately.</li>
                                     </ul>
                                 </div>
                             </div>
@@ -549,9 +579,10 @@
 
             return (
                 <div className="space-y-4">
+                    {/* TOP BACK BUTTON */}
                     <button 
                         onClick={onBack}
-                        className="flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-white transition bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700"
+                        className="flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-white transition bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 shadow-sm"
                     >
                         <i data-lucide="arrow-left" className="w-4 h-4"></i> Back to Incident List
                     </button>
@@ -568,7 +599,39 @@
                         </div>
                     </div>
 
+                    {/* CONTEXTUAL SHELTER LOCATION BAR */}
+                    {isShelterIncident && (
+                        <div className="bg-sky-950/50 border border-sky-800 p-3 rounded-xl text-xs space-y-1">
+                            <span className="text-sky-400 font-bold flex items-center gap-1.5 text-sm">
+                                <i data-lucide="shield" className="w-4 h-4"></i> Designated Shelter Location ({facility.name})
+                            </span>
+                            <p className="text-slate-100 font-bold text-xs">{facility.shelter}</p>
+                            <span className="text-slate-400 text-[10px] block">{facility.address}</span>
+                        </div>
+                    )}
+
+                    {/* CONTEXTUAL EVACUATION ZONE BAR */}
+                    {isEvacIncident && (
+                        <div className="bg-orange-950/50 border border-orange-800 p-3 rounded-xl text-xs space-y-1">
+                            <span className="text-orange-400 font-bold flex items-center gap-1.5 text-sm">
+                                <i data-lucide="log-out" className="w-4 h-4"></i> Evacuation Gathering Location ({facility.name})
+                            </span>
+                            <p className="text-slate-100 font-bold text-xs">{facility.evacuation}</p>
+                            <span className="text-slate-400 text-[10px] block">{facility.address}</span>
+                        </div>
+                    )}
+
                     {renderContent()}
+
+                    {/* BOTTOM BACK BUTTON */}
+                    <div className="pt-2 border-t border-slate-800/80">
+                        <button 
+                            onClick={onBack}
+                            className="w-full flex items-center justify-center gap-1.5 text-xs font-bold text-slate-300 hover:text-white transition bg-slate-800 py-2.5 rounded-xl border border-slate-700 shadow-sm active:scale-[0.99]"
+                        >
+                            <i data-lucide="arrow-left" className="w-4 h-4"></i> Back to Incident List
+                        </button>
+                    </div>
                 </div>
             );
         }
