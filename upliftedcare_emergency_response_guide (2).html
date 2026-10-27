@@ -681,43 +681,200 @@
         // --- SUB-COMPONENT: CONTACTS & COMMUNITY DIRECTORY ---
         function ContactsModule({ facility }) {
             return (
-                <div className="space-y-4">
-                    <div className="border-b border-slate-800 pb-3">
-                        <h2 className="text-base font-bold text-white leading-tight">Emergency Contacts Directory</h2>
-                        <p className="text-xs text-slate-400">Integrated agency and community response partners.</p>
-                    </div>
-
-                    <div className="space-y-2">
-                        <a 
-                            href="tel:911" 
-                            className="w-full bg-red-600/90 hover:bg-red-600 text-white p-3 rounded-xl font-bold text-sm flex items-center justify-between shadow border border-red-500"
-                        >
-                            <span className="flex items-center gap-2">
-                                <i data-lucide="phone-call" className="w-5 h-5"></i> Emergency First Responders
-                            </span>
-                            <span className="font-mono text-base">911</span>
-                        </a>
-
-                        <a 
-                            href="tel:8158027172" 
-                            className="w-full bg-slate-800 hover:bg-slate-700/80 text-slate-100 p-3 rounded-xl text-xs flex items-center justify-between border border-slate-700"
-                        >
-                            <div>
-                                <strong className="block text-slate-200">Kankakee County Sheriff's Office</strong>
-                                <span className="text-[10px] text-slate-400">3000 S Justice Way, Kankakee, IL</span>
-                            </div>
-                            <span className="font-mono text-xs font-bold text-sky-400">(815) 802-7172</span>
-                        </a>
-
-                        <div className="bg-slate-800 p-3 rounded-xl border border-slate-700 space-y-1 text-xs">
-                            <strong className="text-amber-400 block font-bold">Kankakee County EMA (Emergency Management)</strong>
-                            <p className="text-slate-300">Director & Office Manager advisement partners for agency EPP integration.</p>
+                <div className="space-y-6">
+                    {/* SECTION 1: EMERGENCY FIRST RESPONDERS */}
+                    <div className="space-y-3">
+                        <div className="border-b border-slate-800 pb-2">
+                            <h2 className="text-sm font-bold text-red-400 uppercase tracking-wider flex items-center gap-2">
+                                <i data-lucide="shield-alert" className="w-4 h-4"></i>
+                                Emergency First Responders
+                            </h2>
                         </div>
 
-                        <div className="bg-slate-800 p-3 rounded-xl border border-slate-700 space-y-1 text-xs">
-                            <strong className="text-slate-200 block font-bold">Local Assembly Point ({facility.name})</strong>
-                            <p className="text-slate-300 font-semibold">{facility.egressAssembly}</p>
-                            <p className="text-[11px] text-slate-400">{facility.address}</p>
+                        <div className="space-y-2">
+                            <a 
+                                href="tel:8159373579" 
+                                className="w-full bg-slate-800 hover:bg-slate-700/80 text-slate-100 p-3 rounded-xl text-xs flex items-center justify-between border border-slate-700 transition"
+                            >
+                                <div>
+                                    <strong className="block text-slate-200">Bourbonnais Police Non-Emergency</strong>
+                                    <span className="text-[10px] text-slate-400">700 Main St NW, Bourbonnais, IL 60914</span>
+                                </div>
+                                <span className="font-mono text-xs font-bold text-sky-400 shrink-0 ml-2">(815) 937-3579</span>
+                            </a>
+
+                            <a 
+                                href="tel:8159333321" 
+                                className="w-full bg-slate-800 hover:bg-slate-700/80 text-slate-100 p-3 rounded-xl text-xs flex items-center justify-between border border-slate-700 transition"
+                            >
+                                <div>
+                                    <strong className="block text-slate-200">Kankakee Police Non-Emergency</strong>
+                                    <span className="text-[10px] text-slate-400">385 East Oak Street, Kankakee, IL 60901</span>
+                                </div>
+                                <span className="font-mono text-xs font-bold text-sky-400 shrink-0 ml-2">(815) 933-3321</span>
+                            </a>
+
+                            <a 
+                                href="tel:8159333324" 
+                                className="w-full bg-slate-800 hover:bg-slate-700/80 text-slate-100 p-3 rounded-xl text-xs flex items-center justify-between border border-slate-700 transition"
+                            >
+                                <div>
+                                    <strong className="block text-slate-200">Kankakee County Sheriff's Office</strong>
+                                    <span className="text-[10px] text-slate-400">Non-Business Hours / Dispatch</span>
+                                </div>
+                                <span className="font-mono text-xs font-bold text-sky-400 shrink-0 ml-2">(815) 933-3324</span>
+                            </a>
+
+                            <a 
+                                href="tel:8159333315" 
+                                className="w-full bg-slate-800 hover:bg-slate-700/80 text-slate-100 p-3 rounded-xl text-xs flex items-center justify-between border border-slate-700 transition"
+                            >
+                                <div>
+                                    <strong className="block text-slate-200">Bradley Police Non-Emergency</strong>
+                                    <span className="text-[10px] text-slate-400">147 S. Michigan Ave., Bradley, IL 60915</span>
+                                </div>
+                                <span className="font-mono text-xs font-bold text-sky-400 shrink-0 ml-2">(815) 933-3315</span>
+                            </a>
+
+                            <a 
+                                href="tel:911" 
+                                className="w-full bg-red-600/90 hover:bg-red-600 text-white p-3 rounded-xl font-bold text-xs flex items-center justify-between shadow border border-red-500 transition"
+                            >
+                                <span className="flex items-center gap-2">
+                                    <i data-lucide="flame" className="w-4 h-4"></i> Emergency Fire Department(s)
+                                </span>
+                                <span className="font-mono text-sm font-black">Call 911</span>
+                            </a>
+
+                            <a 
+                                href="tel:8159359670" 
+                                className="w-full bg-slate-800 hover:bg-slate-700/80 text-slate-100 p-3 rounded-xl text-xs flex items-center justify-between border border-slate-700 transition"
+                            >
+                                <div>
+                                    <strong className="block text-slate-200">Bourbonnais Fire Non-Emergency</strong>
+                                    <span className="text-[10px] text-slate-400">1080 Armour Road, Bourbonnais, IL 60914</span>
+                                </div>
+                                <span className="font-mono text-xs font-bold text-sky-400 shrink-0 ml-2">(815) 935-9670</span>
+                            </a>
+
+                            <a 
+                                href="tel:8159330450" 
+                                className="w-full bg-slate-800 hover:bg-slate-700/80 text-slate-100 p-3 rounded-xl text-xs flex items-center justify-between border border-slate-700 transition"
+                            >
+                                <div>
+                                    <strong className="block text-slate-200">Kankakee Fire Non-Emergency</strong>
+                                    <span className="text-[10px] text-slate-400">385 East Oak Street, Kankakee, IL 60901</span>
+                                </div>
+                                <span className="font-mono text-xs font-bold text-sky-400 shrink-0 ml-2">(815) 933-0450</span>
+                            </a>
+
+                            <a 
+                                href="tel:8159332401" 
+                                className="w-full bg-slate-800 hover:bg-slate-700/80 text-slate-100 p-3 rounded-xl text-xs flex items-center justify-between border border-slate-700 transition"
+                            >
+                                <div>
+                                    <strong className="block text-slate-200">Bradley Fire Non-Emergency</strong>
+                                    <span className="text-[10px] text-slate-400">147 S. Michigan Avenue, Bradley, IL 60915</span>
+                                </div>
+                                <span className="font-mono text-xs font-bold text-sky-400 shrink-0 ml-2">(815) 933-2401</span>
+                            </a>
+
+                            <a 
+                                href="tel:8159333324" 
+                                className="w-full bg-slate-800 hover:bg-slate-700/80 text-slate-100 p-3 rounded-xl text-xs flex items-center justify-between border border-slate-700 transition"
+                            >
+                                <div>
+                                    <strong className="block text-slate-200">County-Wide Non-Emergency Dispatch</strong>
+                                    <span className="text-[10px] text-slate-400">KAN-COM</span>
+                                </div>
+                                <span className="font-mono text-xs font-bold text-sky-400 shrink-0 ml-2">(815) 933-3324</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    {/* SECTION 2: UTILITY CONTACTS */}
+                    <div className="space-y-3">
+                        <div className="border-b border-slate-800 pb-2">
+                            <h2 className="text-sm font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
+                                <i data-lucide="zap" className="w-4 h-4"></i>
+                                Utility Contacts
+                            </h2>
+                        </div>
+
+                        <div className="space-y-3">
+                            {/* POWER */}
+                            <div className="bg-slate-800 p-3 rounded-xl border border-slate-700 text-xs space-y-2">
+                                <div className="flex items-center justify-between border-b border-slate-700 pb-1.5">
+                                    <div className="flex items-center gap-2">
+                                        <div className="bg-amber-500/20 text-amber-400 p-1.5 rounded-lg border border-amber-500/30">
+                                            <i data-lucide="zap" className="w-4 h-4"></i>
+                                        </div>
+                                        <strong className="text-slate-100 text-sm">Power - ComEd</strong>
+                                    </div>
+                                    <a 
+                                        href="tel:8003347661" 
+                                        className="font-mono text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 px-2 py-1 rounded-md hover:bg-amber-500/30 transition"
+                                    >
+                                        (800) 334-7661
+                                    </a>
+                                </div>
+                                <div className="space-y-1 text-[11px] text-slate-300">
+                                    <p><strong>482 Main St. NW:</strong> Acct# 0861113082 | Meter# 230228240</p>
+                                    <p><strong>3115N, 1000W Rd.:</strong> Acct# 0861249014 | Meter1# 230144576 | Meter2# 271899274</p>
+                                </div>
+                            </div>
+
+                            {/* WATER */}
+                            <div className="bg-slate-800 p-3 rounded-xl border border-slate-700 text-xs space-y-2">
+                                <div className="flex items-center justify-between border-b border-slate-700 pb-1.5">
+                                    <div className="flex items-center gap-2">
+                                        <div className="bg-sky-500/20 text-sky-400 p-1.5 rounded-lg border border-sky-500/30">
+                                            <i data-lucide="droplet" className="w-4 h-4"></i>
+                                        </div>
+                                        <strong className="text-slate-100 text-sm">Water - AQUA</strong>
+                                    </div>
+                                    <div className="flex gap-1">
+                                        <a 
+                                            href="tel:8779872782" 
+                                            className="font-mono text-[10px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/40 px-1.5 py-1 rounded-md hover:bg-sky-500/30 transition"
+                                        >
+                                            (877) 987-2782
+                                        </a>
+                                        <a 
+                                            href="tel:8159356535" 
+                                            className="font-mono text-[10px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/40 px-1.5 py-1 rounded-md hover:bg-sky-500/30 transition"
+                                        >
+                                            (815) 935-6535
+                                        </a>
+                                    </div>
+                                </div>
+                                <div className="space-y-1 text-[11px] text-slate-300">
+                                    <p><strong>482 Main St. NW:</strong> Acct# 0013780701033616 | Meter# 19136235</p>
+                                    <p><strong>3115N, 1000W Rd.:</strong> Acct# 0013780701033320 | Meter# 17036409</p>
+                                </div>
+                            </div>
+
+                            {/* NATURAL GAS */}
+                            <div className="bg-slate-800 p-3 rounded-xl border border-slate-700 text-xs space-y-2">
+                                <div className="flex items-center justify-between border-b border-slate-700 pb-1.5">
+                                    <div className="flex items-center gap-2">
+                                        <div className="bg-orange-500/20 text-orange-400 p-1.5 rounded-lg border border-orange-500/30">
+                                            <i data-lucide="flame" className="w-4 h-4"></i>
+                                        </div>
+                                        <strong className="text-slate-100 text-sm">Natural Gas - NICOR</strong>
+                                    </div>
+                                    <a 
+                                        href="tel:8886426748" 
+                                        className="font-mono text-xs font-bold bg-orange-500/20 text-orange-300 border border-orange-500/40 px-2 py-1 rounded-md hover:bg-orange-500/30 transition"
+                                    >
+                                        (888) 642-6748
+                                    </a>
+                                </div>
+                                <div className="space-y-1 text-[11px] text-slate-300">
+                                    <p><strong>482 Main St. NW:</strong> Acct# 84605209463 | Meter# 3408937</p>
+                                    <p><strong>3115N, 1000W Rd.:</strong> Acct# 24660930355 | Meter# 5302253</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
