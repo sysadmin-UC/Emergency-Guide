@@ -49,6 +49,7 @@
         // Emergency Data from Document
         const FACILITIES = {
             main: {
+                id: "main",
                 name: "Main Building",
                 address: "482 Main St. NW, Bourbonnais, IL",
                 shelter: "Any of the FOUR Restrooms",
@@ -58,6 +59,7 @@
                 generator: "Has Natural Gas Generator (Starts in 5s automatically for emergency circuits)"
             },
             grief: {
+                id: "grief",
                 name: "Grief Center",
                 address: "3115N, 1000W Rd., Bourbonnais, IL",
                 shelter: "Room 115 - The Hideaway (Art Room)",
@@ -83,10 +85,81 @@
             { id: 'supply', title: 'Medical Supply / Drug Shortage', icon: 'pill', category: 'Logistics', color: 'bg-emerald-600', badge: 'Stockpile' }
         ];
 
+        const HOW_TO_TASKS = [
+            {
+                id: 'change-tire',
+                title: 'Changing a Car Tire',
+                category: 'Auto Maintenance',
+                icon: 'disc',
+                color: 'bg-amber-600',
+                badge: 'Tire & Jack',
+                summary: 'Step-by-step visual infographic guide on safely lifting your car and changing a flat tire.',
+                caution: 'BEFORE PROCEEDING MAKE SURE YOUR EMERGENCY BRAKE IS ON AND THAT CAR IS ON LEVELED GROUND.',
+                tools: ['Car Jack', 'Tire Iron', 'Spare Tire & Tools (kept in trunk under carpet)'],
+                steps: [
+                    '1. Loosening Wheel Bolts: First loosen the wheel bolts with the tire iron by turning counter-clockwise. Do not remove bolts completely.',
+                    '2. Raising Car: Insert the carjack underneath the carjack point making sure it lines up with groove from jack. Insert jack lever and raise car by turning lever clockwise.',
+                    '3. Removing Tire: Once car tire is lifted off the ground, continue to unbolt the nuts the rest of the way and pull off tire. Pull towards yourself.',
+                    '4. Replacing Tire: Put replacement tire on the car and secure with bolts. Screw bolts on with tire iron to hold tire in place.',
+                    '5. Lowering Car: Lower car by turning jack lever counter clockwise until jack is fully closed and car is on the ground.',
+                    '6. Tightening Wheel Bolts: Tighten wheel bolts by turning tire iron clockwise. Tighten one bolt at a time by alternating from one to the other in a "X" direction.'
+                ]
+            },
+            {
+                id: 'jump-start',
+                title: 'Jump Starting a Car',
+                category: 'Auto Maintenance',
+                icon: 'zap',
+                color: 'bg-emerald-600',
+                badge: 'Battery & Cables',
+                summary: 'Standard jumper cable connection procedure and safety guidelines for dead batteries.',
+                caution: 'NEVER TOUCH THE CLAMPS TOGETHER WHILE ATTACHED TO EITHER BATTERY. POSSIBLE ELECTROCUTION AND DAMAGE TO THE CARS IS HIGHLY LIKELY.',
+                tools: ['Jumper Cables (Set of Red + and Black - Clamps)', 'Donor (Live) Car'],
+                steps: [
+                    '1. Park the LIVE car close enough to the DEAD car for cables to reach between batteries. Turn off both cars. Open and secure hoods on both cars.',
+                    '2. Connect one of the Positive + (RED) cables (SET 1) to the DEAD battery.',
+                    '3. Connect the other Positive + (RED) cable (SET 2) to the LIVE battery.',
+                    '4. Connect the Negative - (BLACK) cable (SET 2) to the LIVE battery.',
+                    '5. Connect the Negative - (BLACK) cable (SET 1) to an unpainted metal surface of the DEAD car.',
+                    '6. Start the LIVE car and wait 5 minutes.',
+                    '7. Attempt to start the DEAD car. If dead car does not start, allow LIVE car to continue idling for another 5 minutes to charge DEAD battery. Attempt to start DEAD car again.',
+                    '8. Once DEAD car is started, remove RED cables from both cars.',
+                    '9. Remove BLACK cables from both cars.',
+                    '10. Close and secure your car hood and store your cables for later use.'
+                ]
+            },
+            {
+                id: 'accident-scene',
+                title: 'Safely Setting Up an Accident Scene',
+                category: 'Roadside Safety',
+                icon: 'alert-triangle',
+                color: 'bg-red-600',
+                badge: 'Safety Zone',
+                summary: 'Establishing extended safety perimeters with LED flares, triangles, and roadside precautions.',
+                caution: 'Do not wait in your vehicle if it is close to moving traffic. Wait further off the road to avoid injury from collisions.',
+                tools: ['LED Flares / Reflective Safety Triangles', 'Hazard Lights', 'Emergency Phone'],
+                steps: [
+                    '1. Pull your car over to side of road as far away from traffic as possible.',
+                    '2. Turn your wheel to prevent rolling and set the emergency brake.',
+                    '3. Activate Hazard Lights in vehicle.',
+                    '4. Check oncoming traffic before exiting vehicle. Call for help or assistance if necessary.',
+                    '5. Set up LED Flares or safety triangles. Walk along shoulder of road (Not in roadway) - ALWAYS pay attention to oncoming traffic.',
+                    '6. Flares should make a slight arc pattern when placed. When safe, place 1st flare along edge of vehicle closest to traffic about 15 ft behind vehicle, return to shoulder.',
+                    '7. When safe, place 2nd flare 20-30 ft behind 1st flare, then return to shoulder of road.',
+                    '8. When safe, place 3rd flare 20-30 ft behind 2nd flare, then return to shoulder of road.',
+                    '9. Return to vehicle by walking along shoulder of road or stand clear of auto and scene while waiting for assistance.',
+                    '10. If performing repairs yourself, have another person keep watch for moving traffic while your attention is engaged (or remain very aware if alone).',
+                    '11. During daylight hours, use reflective safety triangles to set your Safety Zone Perimeter. Deploy flares as dusk falls or on cloudy days.',
+                    '12. If broken down alone or in dangerous area, wait inside car with doors locked. Be VERY cautious if approached by strangers; do not accept rides from strangers.'
+                ]
+            }
+        ];
+
         function App() {
             const [activeFacility, setActiveFacility] = useState('main');
             const [selectedIncident, setSelectedIncident] = useState(null);
-            const [viewMode, setViewMode] = useState('incidents'); // incidents, contacts
+            const [selectedHowTo, setSelectedHowTo] = useState(null);
+            const [viewMode, setViewMode] = useState('incidents'); // incidents, contacts, howto
             const [codeWordModal, setCodeWordModal] = useState(false);
             const [searchQuery, setSearchQuery] = useState('');
 
@@ -95,7 +168,7 @@
                 if (window.lucide) {
                     window.lucide.createIcons();
                 }
-            }, [selectedIncident, viewMode, activeFacility, codeWordModal]);
+            }, [selectedIncident, selectedHowTo, viewMode, activeFacility, codeWordModal]);
 
             const facility = FACILITIES[activeFacility];
 
@@ -236,6 +309,16 @@
                             <ContactsModule facility={facility} />
                         )}
 
+                        {/* VIEW MODE: HOW TO CLINICIAN GUIDES */}
+                        {viewMode === 'howto' && !selectedHowTo && (
+                            <HowToModule onSelectTask={(task) => setSelectedHowTo(task)} />
+                        )}
+
+                        {/* HOW TO DETAILED INFOGRAPHIC VIEW */}
+                        {viewMode === 'howto' && selectedHowTo && (
+                            <HowToDetailModule task={selectedHowTo} onBack={() => setSelectedHowTo(null)} />
+                        )}
+
                     </main>
 
                     {/* SILENT "DR. ARMSTRONG" CODE WORD MODAL */}
@@ -297,21 +380,209 @@
                     {/* BOTTOM MOBILE NAVIGATION BAR */}
                     <nav className="fixed bottom-0 max-w-md w-full bg-slate-950/95 backdrop-blur border-t border-slate-800 px-3 py-2 flex justify-around items-center z-40">
                         <button 
-                            onClick={() => { setViewMode('incidents'); setSelectedIncident(null); }}
+                            onClick={() => { setViewMode('incidents'); setSelectedIncident(null); setSelectedHowTo(null); }}
                             className={`flex flex-col items-center gap-1 text-[10px] font-medium transition ${viewMode === 'incidents' ? 'text-red-500 font-bold' : 'text-slate-400 hover:text-slate-200'}`}
                         >
                             <i data-lucide="alert-triangle" className="w-5 h-5"></i>
                             Hazards
                         </button>
                         <button 
-                            onClick={() => { setViewMode('contacts'); setSelectedIncident(null); }}
+                            onClick={() => { setViewMode('contacts'); setSelectedIncident(null); setSelectedHowTo(null); }}
                             className={`flex flex-col items-center gap-1 text-[10px] font-medium transition ${viewMode === 'contacts' ? 'text-red-500 font-bold' : 'text-slate-400 hover:text-slate-200'}`}
                         >
                             <i data-lucide="phone" className="w-5 h-5"></i>
                             Contacts
                         </button>
+                        <button 
+                            onClick={() => { setViewMode('howto'); setSelectedIncident(null); setSelectedHowTo(null); }}
+                            className={`flex flex-col items-center gap-1 text-[10px] font-medium transition ${viewMode === 'howto' ? 'text-red-500 font-bold' : 'text-slate-400 hover:text-slate-200'}`}
+                        >
+                            <i data-lucide="book-open" className="w-5 h-5"></i>
+                            How To
+                        </button>
                     </nav>
 
+                </div>
+            );
+        }
+
+        // --- SUB-COMPONENT: HOW TO MAIN MODULE ---
+        function HowToModule({ onSelectTask }) {
+            return (
+                <div className="space-y-4">
+                    <div className="border-b border-slate-800 pb-2">
+                        <h2 className="text-sm font-bold text-sky-400 uppercase tracking-wider flex items-center gap-2">
+                            <i data-lucide="book-open" className="w-4 h-4"></i>
+                            Field Clinician How-To Guides
+                        </h2>
+                        <p className="text-[11px] text-slate-400 mt-1">Interactive visual instructions and roadside protocols for field clinicians.</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-3">
+                        {HOW_TO_TASKS.map((task) => (
+                            <button
+                                key={task.id}
+                                onClick={() => onSelectTask(task)}
+                                className="w-full text-left bg-slate-800/90 hover:bg-slate-800 border border-slate-700/60 hover:border-slate-600 rounded-xl p-3.5 space-y-2 transition active:scale-[0.99] group shadow-sm"
+                            >
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center space-x-3">
+                                        <div className={`${task.color} p-2.5 rounded-xl text-white shadow-md flex items-center justify-center shrink-0`}>
+                                            <i data-lucide={task.icon} className="w-5 h-5"></i>
+                                        </div>
+                                        <div>
+                                            <h3 className="text-sm font-bold text-slate-100 group-hover:text-sky-400 transition">{task.title}</h3>
+                                            <p className="text-[11px] text-slate-400">{task.category}</p>
+                                        </div>
+                                    </div>
+                                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300">
+                                        {task.badge}
+                                    </span>
+                                </div>
+                                <p className="text-xs text-slate-300 line-clamp-2 pl-1">{task.summary}</p>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        // --- SUB-COMPONENT: HOW TO DETAIL INFOGRAPHIC MODULE ---
+        function HowToDetailModule({ task, onBack }) {
+            return (
+                <div className="space-y-4">
+                    <button 
+                        onClick={onBack}
+                        className="flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-white transition bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 shadow-sm"
+                    >
+                        <i data-lucide="arrow-left" className="w-4 h-4"></i> Back to How-To Guides
+                    </button>
+
+                    <div className="flex items-center space-x-3 border-b border-slate-800 pb-3">
+                        <div className={`${task.color} p-2.5 rounded-xl text-white shadow-md`}>
+                            <i data-lucide={task.icon} className="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h2 className="text-base font-bold text-white leading-tight">{task.title}</h2>
+                            <span className="text-[10px] text-sky-400 font-semibold tracking-wider uppercase">Infographic Guide & Action Steps</span>
+                        </div>
+                    </div>
+
+                    {/* CAUTION BOX */}
+                    {task.caution && (
+                        <div className="bg-red-950/50 border border-red-800 p-3 rounded-xl text-xs space-y-1">
+                            <span className="text-red-400 font-bold flex items-center gap-1 text-xs">
+                                <i data-lucide="alert-octagon" className="w-4 h-4"></i> CAUTION / WARNING
+                            </span>
+                            <p className="text-slate-200 font-medium leading-snug">{task.caution}</p>
+                        </div>
+                    )}
+
+                    {/* INFOGRAPHIC DIAGRAM SCHEMATIC */}
+                    <div className="bg-slate-950 border border-slate-800 rounded-xl p-3.5 space-y-3">
+                        <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                            <span className="text-xs font-bold text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
+                                <i data-lucide="image" className="w-4 h-4"></i> Visual Infographic Schematic
+                            </span>
+                            <span className="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded">Graphic Reference</span>
+                        </div>
+
+                        {task.id === 'change-tire' && (
+                            <div className="bg-slate-900 border border-slate-800 rounded-lg p-3 text-center space-y-2">
+                                <div className="grid grid-cols-3 gap-2 text-[10px]">
+                                    <div className="bg-slate-950 p-2 rounded border border-slate-800">
+                                        <i data-lucide="wrench" className="w-5 h-5 mx-auto text-amber-400 mb-1"></i>
+                                        <strong className="block text-slate-200">Tools Needed</strong>
+                                        <span className="text-[9px] text-slate-400">Jack & Tire Iron</span>
+                                    </div>
+                                    <div className="bg-slate-950 p-2 rounded border border-slate-800">
+                                        <i data-lucide="box" className="w-5 h-5 mx-auto text-amber-400 mb-1"></i>
+                                        <strong className="block text-slate-200">Location</strong>
+                                        <span className="text-[9px] text-slate-400">Trunk under carpet</span>
+                                    </div>
+                                    <div className="bg-slate-950 p-2 rounded border border-slate-800">
+                                        <i data-lucide="target" className="w-5 h-5 mx-auto text-amber-400 mb-1"></i>
+                                        <strong className="block text-slate-200">Jack Points</strong>
+                                        <span className="text-[9px] text-slate-400">4 Points on sides</span>
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-2 gap-2 text-[10px] pt-1 text-left">
+                                    <div className="bg-slate-950 p-2 rounded border border-slate-800"><strong>1. Loosen Bolts:</strong> Turn counter-clockwise</div>
+                                    <div className="bg-slate-950 p-2 rounded border border-slate-800"><strong>2. Raise Car:</strong> Jack lever clockwise</div>
+                                    <div className="bg-slate-950 p-2 rounded border border-slate-800"><strong>3. Remove Tire:</strong> Pull toward yourself</div>
+                                    <div className="bg-slate-950 p-2 rounded border border-slate-800"><strong>4-6. Replace & Lower:</strong> Tighten in "X" pattern</div>
+                                </div>
+                            </div>
+                        )}
+
+                        {task.id === 'jump-start' && (
+                            <div className="bg-slate-900 border border-slate-800 rounded-lg p-3 space-y-2 text-xs">
+                                <div className="flex justify-around items-center bg-slate-950 p-2 rounded border border-slate-800 font-mono text-[11px] text-center">
+                                    <div className="text-red-400">
+                                        <strong className="block">DEAD CAR</strong>
+                                        <span>(1) RED (+) & (4) BLACK (-) Ground</span>
+                                    </div>
+                                    <div className="text-sky-400">
+                                        <strong className="block">LIVE CAR</strong>
+                                        <span>(2) RED (+) & (3) BLACK (-)</span>
+                                    </div>
+                                </div>
+                                <div className="bg-slate-950 p-2 rounded border border-slate-800 font-mono text-[10px] text-amber-300 text-center">
+                                    Sequence: (1) DEAD + → (2) LIVE + → (3) LIVE - → (4) DEAD Metal Ground
+                                </div>
+                            </div>
+                        )}
+
+                        {task.id === 'accident-scene' && (
+                            <div className="bg-slate-900 border border-slate-800 rounded-lg p-3 space-y-2 text-xs">
+                                <div className="bg-slate-950 p-3 rounded border border-slate-800 space-y-1.5 text-center">
+                                    <div className="text-emerald-400 font-bold uppercase text-[11px]">Extended Safety Zone Perimeter</div>
+                                    <div className="flex justify-between items-center text-[10px] text-slate-300 font-mono pt-1">
+                                        <span className="bg-amber-950/60 border border-amber-800 text-amber-300 px-1.5 py-0.5 rounded">Flare 3 (60-75 ft)</span>
+                                        <span>←</span>
+                                        <span className="bg-amber-950/60 border border-amber-800 text-amber-300 px-1.5 py-0.5 rounded">Flare 2 (30-45 ft)</span>
+                                        <span>←</span>
+                                        <span className="bg-amber-950/60 border border-amber-800 text-amber-300 px-1.5 py-0.5 rounded">Flare 1 (15 ft)</span>
+                                        <span>←</span>
+                                        <span className="bg-red-900/60 border border-red-700 text-red-200 px-1.5 py-0.5 rounded">Your Auto</span>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* TOOLS REQUIRED */}
+                    {task.tools && (
+                        <div className="bg-slate-800 p-3 rounded-xl border border-slate-700 text-xs space-y-1">
+                            <strong className="text-slate-200 block text-xs">Required Tools & Gear:</strong>
+                            <ul className="list-disc pl-5 space-y-0.5 text-slate-300">
+                                {task.tools.map((tool, idx) => (
+                                    <li key={idx}>{tool}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
+                    {/* DETAILED STEP BY STEP CHECKLIST */}
+                    <div className="bg-slate-800 p-3.5 rounded-xl border border-slate-700 space-y-2 text-xs">
+                        <h4 className="font-bold text-slate-200 uppercase tracking-wider">Step-by-Step Instructions</h4>
+                        <ol className="space-y-2 text-slate-300">
+                            {task.steps.map((step, idx) => (
+                                <li key={idx} className="bg-slate-900 p-2.5 rounded-lg border border-slate-800 leading-relaxed">
+                                    {step}
+                                </li>
+                            ))}
+                        </ol>
+                    </div>
+
+                    <div className="pt-2 border-t border-slate-800/80">
+                        <button 
+                            onClick={onBack}
+                            className="w-full flex items-center justify-center gap-1.5 text-xs font-bold text-slate-300 hover:text-white transition bg-slate-800 py-2.5 rounded-xl border border-slate-700 shadow-sm active:scale-[0.99]"
+                        >
+                            <i data-lucide="arrow-left" className="w-4 h-4"></i> Back to How-To Guides
+                        </button>
+                    </div>
                 </div>
             );
         }
@@ -475,6 +746,41 @@
                             </div>
                         );
 
+                    case 'winter-storm':
+                        return (
+                            <div className="space-y-3 text-xs">
+                                <div className="bg-blue-950/40 border border-blue-800 p-3.5 rounded-xl space-y-2">
+                                    <h4 className="font-bold text-blue-400 text-sm">WINTER DRIVING TIPS</h4>
+                                    <ul className="space-y-2 text-slate-300 list-disc pl-5">
+                                        <li>
+                                            <strong>Know the limits of your vehicle:</strong> Your car or truck has a maximum clearance height for items you may drive OVER and not just UNDER. Driving a vehicle with a lower ground clearance could land you in deep trouble (or SNOW)! Also remember that 4 wheel drive vehicles do NOT have magical powers that 2 wheel drive cars do not have. 4 wheel drive vehicles can also get stuck and slide on ice.
+                                        </li>
+                                        <li>
+                                            <strong>Tire Pressure:</strong> Your car or truck’s tire pressure will vary depending on the temperature. As the weather gets colder, the air in your tires will condense and the pressure will drop. Remember to keep your tires properly inflated during cold months but also remember not to OVERINFLATE. When the temperature begins to rise, the air in your tires will begin to expand and could possibly cause dangerous driving conditions.
+                                        </li>
+                                        <li>
+                                            <strong>Back Injuries:</strong> As the snow begins to melt, it becomes slushier and heavier. REMEMBER to use proper lifting technique and do not over-exert yourself while shoveling.
+                                        </li>
+                                        <li>
+                                            <strong>Dirty Windshield:</strong> The additional road salt and melting snow will dirty up a windshield faster than anything. REMEMBER to keep your cleaning fluids topped off and get torn wipers replaced.
+                                        </li>
+                                        <li>
+                                            <strong>Winter Emergency Car Kit:</strong> Taking the time to pack a Winter Emergency Kit for every car in your household could be the difference between life or death if you become stranded. NEVER underestimate the importance of a full tank of gas or a dry pair of socks! (Include items such as 70% of winter deaths related to snow and ice occur in cars: Windshield Scraper, Shovel, Phone Charger, Flashlight & Batteries, Jumper Cables, Non-perishable Food, First-aid Kit, Grit for Traction, Blankets & Clothes).
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-slate-800 p-3.5 rounded-xl border border-slate-700 space-y-2">
+                                    <h4 className="font-bold text-slate-200">Staff Action Steps</h4>
+                                    <ul className="space-y-1.5 text-slate-300 list-disc pl-5">
+                                        <li>Winter storms are usually predictable within a few days before they occur. Prior to the weather turning bad, each Clinical Case Manager should reach out to their entire caseload to make sure that they are prepared for the coming storm. Check to see if they will have power, heat and ample medical supplies or medication/oxygen. Check if they have a backup emergency plan in place and are aware of how to follow through with it.</li>
+                                        <li>Staff are NOT expected to navigate or drive during unsafe weather conditions. Staff are also EXPECTED to provide essential medical care where needed. Planning ahead of poor weather is essential to completing this task.</li>
+                                        <li>When conditions are too bad to traverse, alternative methods of care may be the only option (i.e. giving care instructions over the phone, utilizing UC staff that are closer to the patient to administer care, contacting law enforcement or EMS for a well-check or waiting until roads can be cleared enough to safely travel). Reach out to your supervisor to discuss options before putting yourself in danger.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        );
+
                     case 'earthquake':
                         return (
                             <div className="space-y-3 text-xs">
@@ -509,12 +815,30 @@
                                 </div>
 
                                 <div className="bg-slate-800 p-3.5 rounded-xl border border-slate-700 space-y-2">
-                                    <h4 className="font-bold text-slate-200">Staff Action Steps:</h4>
+                                    <h4 className="font-bold text-slate-200">Staff Action Steps</h4>
                                     <ul className="list-disc pl-5 space-y-1.5 text-slate-300">
-                                        <li>Remain calm. Avoid moving in dark until obstacles cleared.</li>
+                                        <li>Remain calm. Avoid moving in dark until you can see well enough to avoid obstacles.</li>
+                                        <li>Wait for Leadership to arrive with Power Outage supplies.</li>
                                         <li>Power down and unplug sensitive equipment/electronics.</li>
-                                        <li>Report un-met patient power needs to supervisor immediately.</li>
+                                        <li>Report any unmet power of equipment needs to supervisor.</li>
                                     </ul>
+                                </div>
+
+                                <div className="bg-slate-800 p-3.5 rounded-xl border border-slate-700 space-y-2">
+                                    <h4 className="font-bold text-yellow-400">Leadership Action Steps</h4>
+                                    {facility.id === 'grief' ? (
+                                        <ul className="list-disc pl-5 space-y-1.5 text-slate-300">
+                                            <li>The Grief Center does not have a backup generator. Leadership and/or present staff are instructed to access power outage supplies located in the lower cabinets, outside of the Admin Offices in order to safely maneuver the facility. The kits include Jumper Cables, Weather Radios, Flashlights, Chem-Lights, Extension Cords, Power Strips and portable battery packs.</li>
+                                            <li>Staff is asked to report the power outage immediately to the Leadership Team at the Main Office.</li>
+                                            <li>Outage map can be found at <a href="https://secure.comed.com/FaceBook/Pages/outagemap.aspx" target="_blank" rel="noopener noreferrer" className="text-sky-400 underline hover:text-sky-300">https://secure.comed.com/FaceBook/Pages/outagemap.aspx</a></li>
+                                        </ul>
+                                    ) : (
+                                        <ul className="list-disc pl-5 space-y-1.5 text-slate-300">
+                                            <li>Verify that the Main Office facility has switched to backup generator power. The generator is located outside, just to the left of the Employee Entrance. You will hear an engine running. The backup generator is wired to power all of the items inside of the Phone/Server Room 03, facility overhead lighting in the common areas and the red outlets in the Large Conference Room 10. If facility power has not automatically switched over to backup power or if the generator fails to start, the generator may be manually started from inside of the generator housing. It is suggested that approved personnel perform this task.</li>
+                                            <li>There are large red bins located in the Mechanical Room 05 that contain Jumper Cables, Weather Radios, Flashlights, Chem-Lights, Extension Cords, Power Strips and portable battery packs. These are to be distributed among staff as needed during an outage.</li>
+                                            <li>Call electrical utility to report the outage or to obtain outage updates. An online outage checker can be found at <a href="https://secure.comed.com/FaceBook/Pages/outagemap.aspx" target="_blank" rel="noopener noreferrer" className="text-sky-400 underline hover:text-sky-300">https://secure.comed.com/FaceBook/Pages/outagemap.aspx</a> ComEd contact info can be found in the Contacts section of this application.</li>
+                                        </ul>
+                                    )}
                                 </div>
                             </div>
                         );
