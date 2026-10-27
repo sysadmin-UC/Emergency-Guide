@@ -3,46 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UpliftedCare - Emergency Preparedness Assistant</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- React & React DOM -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <title>UpliftedCare Emergency Preparedness</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-        }
-        ::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #94a3b8;
-            border-radius: 4px;
-        }
-        .pulse-red {
-            animation: pulse-red-anim 1.8s infinite;
-        }
-        @keyframes pulse-red-anim {
-            0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
-            70% { box-shadow: 0 0 0 12px rgba(220, 38, 38, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: #0f172a; color: #f8fafc; display: flex; justify-content: center; min-height: 100vh; -webkit-tap-highlight-color: transparent; }
+        .app-container { width: 100%; max-width: 450px; background-color: #0f172a; min-height: 100vh; padding-bottom: 80px; position: relative; border-left: 1px solid #1e293b; border-right: 1px solid #1e293b; }
+        
+        /* Header */
+        header { position: sticky; top: 0; z-index: 40; background-color: rgba(2, 6, 23, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid #1e293b; padding: 12px; }
+        .header-top { display: flex; align-items: center; justify-content: space-between; }
+        .brand { display: flex; align-items: center; gap: 10px; }
+        .brand-icon { background-color: #dc2626; color: white; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .brand-text h1 { font-size: 16px; font-weight: 700; color: #ffffff; }
+        .brand-text p { font-size: 10px; font-weight: 700; color: #f87171; text-transform: uppercase; tracking: 1px; }
+        
+        .btn-call { background-color: #dc2626; color: white; padding: 8px 12px; border-radius: 10px; text-decoration: none; font-size: 12px; font-weight: 900; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .btn-call:active { transform: scale(0.95); }
+
+        .location-bar { margin-top: 12px; display: flex; gap: 8px; background-color: #0f172a; padding: 6px; border-radius: 10px; border: 1px solid #1e293b; }
+        .facility-toggle { display: flex; flex: 1; background-color: #020617; padding: 2px; border-radius: 8px; border: 1px solid #1e293b; }
+        .facility-btn { flex: 1; padding: 6px; text-align: center; font-size: 11px; font-weight: 600; border: none; background: transparent; color: #94a3b8; border-radius: 6px; cursor: pointer; }
+        .facility-btn.active { background-color: #dc2626; color: white; font-weight: 700; }
+        .btn-armstrong { background-color: rgba(245, 158, 11, 0.2); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.4); padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
+
+        /* Main Content */
+        main { padding: 16px; }
+        .info-card { background-color: rgba(30, 41, 59, 0.8); border: 1px solid rgba(51, 65, 85, 0.8); border-radius: 12px; padding: 12px; font-size: 12px; margin-bottom: 16px; }
+        .info-card-header { display: flex; justify-content: space-between; margin-bottom: 6px; }
+        .info-card-title { color: #f87171; font-weight: 700; }
+        .info-card-address { color: #94a3b8; font-size: 10px; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; border-top: 1px solid rgba(51, 65, 85, 0.5); padding-top: 6px; font-size: 11px; }
+
+        /* Search & Lists */
+        .search-box { position: relative; margin-bottom: 16px; }
+        .search-input { width: 100%; background-color: #020617; border: 1px solid #1e293b; border-radius: 10px; padding: 10px 12px; font-size: 12px; color: #f8fafc; outline: none; }
+        .search-input:focus { border-color: #dc2626; }
+        
+        .section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #94a3b8; margin-bottom: 8px; letter-spacing: 0.5px; }
+        
+        .hazard-list { display: flex; flex-direction: column; gap: 10px; }
+        .hazard-card { background-color: rgba(30, 41, 59, 0.9); border: 1px solid rgba(51, 65, 85, 0.6); border-radius: 12px; padding: 12px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; color: inherit; cursor: pointer; width: 100%; text-align: left; }
+        .hazard-card:active { transform: scale(0.99); background-color: #1e293b; }
+        .hazard-info { display: flex; align-items: center; gap: 12px; }
+        .hazard-badge { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; flex-shrink: 0; }
+        .hazard-text h3 { font-size: 13px; font-weight: 700; color: #f8fafc; }
+        .hazard-text p { font-size: 11px; color: #94a3b8; }
+        .tag { font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; background-color: #020617; border: 1px solid #334155; color: #cbd5e1; }
+
+        /* Detail View */
+        .btn-back { background-color: #1e293b; color: #94a3b8; border: 1px solid #334155; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; margin-bottom: 12px; display: inline-flex; align-items: center; gap: 4px; }
+        .detail-box { background-color: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 12px; margin-bottom: 12px; font-size: 12px; }
+        .detail-box h4 { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+        .detail-box ul { padding-left: 18px; }
+        .detail-box li { margin-bottom: 6px; color: #cbd5e1; }
+
+        /* Navigation */
+        nav { position: fixed; bottom: 0; max-width: 450px; width: 100%; background-color: rgba(2, 6, 23, 0.95); backdrop-filter: blur(8px); border-top: 1px solid #1e293b; padding: 8px 16px; display: flex; justify-content: space-around; z-activity: 40; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 10px; color: #94a3b8; text-decoration: none; border: none; background: none; cursor: pointer; font-weight: 600; }
+        .nav-item.active { color: #ef4444; font-weight: 700; }
+
+        /* Modal */
+        .modal { position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(4px); z-index: 50; display: flex; align-items: center; justify-content: center; padding: 16px; }
+        .modal-body { background-color: #0f172a; border: 1px solid rgba(245, 158, 11, 0.5); border-radius: 16px; padding: 20px; max-width: 360px; width: 100%; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-red-500 selection:text-white">
+<body>
 
-    <div id="root"></div>
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="header-top">
+                <div class="brand">
+                    <div class="brand-icon">🚨</div>
+                    <div class="brand-text">
+                        <h1>UpliftedCare</h1>
+                        <p>Emergency Guide</p>
+                    </div>
+                </div>
+                <a href="tel:911" class="btn-call">📞 CALL 911</a>
+            </div>
+            <div class="location-bar">
+                <div class="facility-toggle">
+                    <button id="btn-main" class="facility-btn active" onclick="switchFacility('main')">Main Bldg</button>
+                    <button id="btn-grief" class="facility-btn" onclick="switchFacility('grief')">Grief Center</button>
+                </div>
+                <button class="btn-armstrong" onclick="toggleModal(true)">Dr. Armstrong</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="app-main">
+            <!-- Rendered by JavaScript -->
+        </main>
+
+        <!-- Navigation -->
+        <nav>
+            <button class="nav-item active" id="nav-hazards" onclick="showView('hazards')">
+                <span style="font-size: 16px;">⚠️</span>
+                <span>Hazards</span>
+            </button>
+            <button class="nav-item" id="nav-contacts" onclick="showView('contacts')">
+                <span style="font-size: 16px;">📞</span>
+                <span>Contacts</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Dr. Armstrong Modal -->
+    <div id="armstrong-modal" class="modal" style="display: none;">
+        <div class="modal-body">
+            <h3 style="color: #f59e0b; font-size: 16px; margin-bottom: 8px;">Dr. Armstrong Protocol</h3>
+            <p style="font-size: 11px; color: #fcd34d; background: rgba(245, 158, 11, 0.1); padding: 8px; border-radius: 6px; margin-bottom: 12px;">
+                <strong>When to use:</strong> Trap in hostile situations to covertly alert for help.
+            </p>
+            <p style="font-size: 11px; color: #cbd5e1; margin-bottom: 6px;">Say to the receiver:</p>
+            <div style="background-color: #020617; padding: 10px; border-radius: 8px; font-family: monospace; font-size: 11px; color: #f8fafc; margin-bottom: 12px; border: 1px solid #1e293b;">
+                "Hello. This is [Your Name]. I need you to page <span style="color: #f59e0b; font-weight: bold;">Dr. Armstrong</span> immediately. We have had some complications here. Please tell him/her to come to <span style="color: #f87171; font-weight: bold;">[Your Current Address]</span> as soon as possible."
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <a href="tel:911" class="btn-call" style="flex: 1; justify-content: center; text-align: center;">Call 911 Directly</a>
+                <button onclick="toggleModal(false)" style="background: #1e293b; color: white; border: none; padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;">Close</button>
+            </div>
+        </div>
+    </div>
 
     <script>
-        const { useState, useEffect, useMemo, createElement: h } = React;
-
         const FACILITIES = {
             main: {
                 name: "Main Building",
@@ -50,8 +135,7 @@
                 shelter: "Any of the FOUR Restrooms",
                 evacuation: "SW Corner of Parking Lot",
                 panicButton: "Front Office Lobby Desk (Under Desk)",
-                egressAssembly: "Bourbonnais Police Department",
-                generator: "Has Natural Gas Generator (Starts in 5s automatically for emergency circuits)"
+                egressAssembly: "Bourbonnais Police Department"
             },
             grief: {
                 name: "Grief Center",
@@ -59,275 +143,181 @@
                 shelter: "Room 115 - The Hideaway (Art Room)",
                 evacuation: "Garage (North boundary of parking lot)",
                 panicButton: "Front Lobby Desk, Outside Administrative Offices",
-                egressAssembly: "Gas Station across the street",
-                generator: "No Generator. Battery emergency lights only."
+                egressAssembly: "Gas Station across the street"
             }
         };
 
         const INCIDENTS = [
-            { id: 'active-shooter', title: 'Active Shooter / Violence', icon: 'shield-alert', category: 'High Risk', color: 'bg-red-600', badge: 'CRITICAL' },
-            { id: 'fire', title: 'Fire & Evacuation', icon: 'flame', category: 'Immediate', color: 'bg-orange-600', badge: 'RACE/PASS' },
-            { id: 'lockdown', title: 'Security Lock Downs', icon: 'lock', category: 'Security', color: 'bg-amber-600', badge: 'Hard/Soft' },
-            { id: 'tornado', title: 'Tornado / Derecho', icon: 'wind', category: 'Severe Weather', color: 'bg-sky-600', badge: 'Shelter' },
-            { id: 'bomb-threat', title: 'Bomb Threat Log', icon: 'bomb', category: 'Security Tool', color: 'bg-purple-600', badge: 'Interactive' },
-            { id: 'suspicious-package', title: 'Suspicious Package', icon: 'package-x', category: 'Security', color: 'bg-indigo-600', badge: 'Hazmat' },
-            { id: 'power-outage', title: 'Power Outage', icon: 'zap-off', category: 'Utility', color: 'bg-yellow-600', badge: 'Generator' },
-            { id: 'winter-storm', title: 'Winter Storm / Ice', icon: 'snowflake', category: 'Weather', color: 'bg-blue-600', badge: 'Priority' },
-            { id: 'cyber', title: 'Cyber / Data Ransom', icon: 'hard-drive', category: 'IT Hygiene', color: 'bg-teal-600', badge: 'Isolate' },
-            { id: 'extreme-temp', title: 'Extreme Temps', icon: 'thermometer', category: 'Weather', color: 'bg-red-700', badge: 'Heat/Cold' },
-            { id: 'earthquake', title: 'Earthquake', icon: 'activity', category: 'Geological', color: 'bg-stone-600', badge: 'Drop/Cover' },
-            { id: 'supply', title: 'Medical Supply / Drug Shortage', icon: 'pill', category: 'Logistics', color: 'bg-emerald-600', badge: 'Stockpile' }
+            { id: 'active-shooter', title: 'Active Shooter / Violence', icon: '🛡️', color: '#dc2626', badge: 'CRITICAL', desc: 'Run, Hide, Fight procedures and emergency panic locations.' },
+            { id: 'fire', title: 'Fire & Evacuation', icon: '🔥', color: '#ea580c', badge: 'RACE/PASS', desc: 'Evacuation guidelines, RACE protocol, and PASS extinguisher steps.' },
+            { id: 'lockdown', title: 'Security Lock Downs', icon: '🔒', color: '#d97706', badge: 'Hard/Soft', desc: 'Soft vs Hard lockdown parameters and securing protocol.' },
+            { id: 'tornado', title: 'Tornado / Derecho', icon: '🌪️', color: '#0284c7', badge: 'Shelter', desc: 'Shelter areas and safety actions during severe weather warnings.' },
+            { id: 'power-outage', title: 'Power Outage', icon: '⚡', color: '#ca8a04', badge: 'Generator', desc: 'Automatic generator rules and patient equipment safety.' },
+            { id: 'cyber', title: 'Cyber / Ransomware', icon: '💻', color: '#0d9488', badge: 'Isolate', desc: 'Immediate steps to isolate network cables and reported breaches.' }
         ];
 
-        function App() {
-            const [activeFacility, setActiveFacility] = useState('main');
-            const [selectedIncident, setSelectedIncident] = useState(null);
-            const [viewMode, setViewMode] = useState('incidents');
-            const [codeWordModal, setCodeWordModal] = useState(false);
-            const [searchQuery, setSearchQuery] = useState('');
+        let currentFacility = 'main';
+        let currentView = 'hazards';
+        let selectedIncident = null;
+        let searchQuery = '';
 
-            useEffect(() => {
-                if (window.lucide) {
-                    window.lucide.createIcons();
+        function switchFacility(fac) {
+            currentFacility = fac;
+            document.getElementById('btn-main').className = fac === 'main' ? 'facility-btn active' : 'facility-btn';
+            document.getElementById('btn-grief').className = fac === 'grief' ? 'facility-btn active' : 'facility-btn';
+            render();
+        }
+
+        function showView(view) {
+            currentView = view;
+            selectedIncident = null;
+            document.getElementById('nav-hazards').className = view === 'hazards' ? 'nav-item active' : 'nav-item';
+            document.getElementById('nav-contacts').className = view === 'contacts' ? 'nav-item active' : 'nav-item';
+            render();
+        }
+
+        function toggleModal(show) {
+            document.getElementById('armstrong-modal').style.display = show ? 'flex' : 'none';
+        }
+
+        function selectIncident(id) {
+            selectedIncident = id;
+            render();
+        }
+
+        function render() {
+            const main = document.getElementById('app-main');
+            const fac = FACILITIES[currentFacility];
+
+            let html = `
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <span class="info-card-title">📍 ${fac.name}</span>
+                        <span class="info-card-address">${fac.address}</span>
+                    </div>
+                    <div class="info-grid">
+                        <div><span style="color: #94a3b8;">Shelter:</span> <strong>${fac.shelter}</strong></div>
+                        <div><span style="color: #94a3b8;">Evac:</span> <strong>${fac.evacuation}</strong></div>
+                    </div>
+                </div>
+            `;
+
+            if (currentView === 'hazards') {
+                if (!selectedIncident) {
+                    html += `
+                        <div class="search-box">
+                            <input type="text" class="search-input" placeholder="Search emergency hazard..." value="${searchQuery}" oninput="searchQuery = this.value; render();">
+                        </div>
+                        <div class="section-title">Emergency Procedures</div>
+                        <div class="hazard-list">
+                    `;
+
+                    const filtered = INCIDENTS.filter(i => i.title.toLowerCase().includes(searchQuery.toLowerCase()));
+
+                    filtered.forEach(inc => {
+                        html += `
+                            <div class="hazard-card" onclick="selectIncident('${inc.id}')">
+                                <div class="hazard-info">
+                                    <div class="hazard-badge" style="background-color: ${inc.color};">${inc.icon}</div>
+                                    <div class="hazard-text">
+                                        <h3>${inc.title}</h3>
+                                        <p>${inc.desc}</p>
+                                    </div>
+                                </div>
+                                <span class="tag">${inc.badge}</span>
+                            </div>
+                        `;
+                    });
+
+                    html += `</div>`;
+                } else {
+                    const inc = INCIDENTS.find(i => i.id === selectedIncident);
+                    html += `
+                        <button class="btn-back" onclick="selectIncident(null)">← Back to List</button>
+                        <h2 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: #ffffff;">${inc.icon} ${inc.title}</h2>
+                    `;
+
+                    if (selectedIncident === 'active-shooter') {
+                        html += `
+                            <div class="detail-box" style="border-color: #dc2626; background-color: rgba(220, 38, 38, 0.1);">
+                                <h4 style="color: #f87171;">Panic Alarm Button Location</h4>
+                                <p><strong>${fac.name}:</strong> ${fac.panicButton}</p>
+                            </div>
+                            <div class="detail-box">
+                                <h4 style="color: #4ade80;">1. RUN (Evacuate)</h4>
+                                <ul>
+                                    <li>Have an escape route in mind. Leave belongings behind.</li>
+                                    <li>Keep hands visible with fingers spread for law enforcement.</li>
+                                </ul>
+                            </div>
+                            <div class="detail-box">
+                                <h4 style="color: #fbbf24;">2. HIDE (Hide Out)</h4>
+                                <ul>
+                                    <li>Lock and barricade doors with heavy furniture.</li>
+                                    <li><strong>SILENCE PHONES COMPLETELY</strong> (turn off vibration).</li>
+                                </ul>
+                            </div>
+                            <div class="detail-box">
+                                <h4 style="color: #f87171;">3. FIGHT (Take Action)</h4>
+                                <ul>
+                                    <li>As absolute last resort, act aggressively to disrupt the shooter.</li>
+                                </ul>
+                            </div>
+                        `;
+                    } else if (selectedIncident === 'fire') {
+                        html += `
+                            <div class="detail-box">
+                                <h4 style="color: #fb923c;">R.A.C.E. Protocol</h4>
+                                <ul>
+                                    <li><strong>R</strong>escue anyone in immediate danger.</li>
+                                    <li><strong>A</strong>larm: Pull alarm & Call 911.</li>
+                                    <li><strong>C</strong>ontain: Close doors behind you.</li>
+                                    <li><strong>E</strong>vacuate to designated assembly zone.</li>
+                                </ul>
+                            </div>
+                            <div class="detail-box">
+                                <h4 style="color: #fbbf24;">P.A.S.S. Extinguisher Guide</h4>
+                                <ul>
+                                    <li><strong>P</strong>ull safety pin.</li>
+                                    <li><strong>A</strong>im at base of fire.</li>
+                                    <li><strong>S</strong>queeze lever slowly.</li>
+                                    <li><strong>S</strong>weep side-to-side.</li>
+                                </ul>
+                            </div>
+                        `;
+                    } else {
+                        html += `
+                            <div class="detail-box">
+                                <h4>General Protocol</h4>
+                                <p>Refer to full agency Emergency Preparedness Plan. Maintain contact with supervisor and ensure patient priority safety.</p>
+                            </div>
+                        `;
+                    }
                 }
-            }, [selectedIncident, viewMode, activeFacility, codeWordModal]);
+            } else if (currentView === 'contacts') {
+                html += `
+                    <div class="section-title">Emergency Contacts</div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <a href="tel:911" class="btn-call" style="justify-content: space-between; padding: 12px;">
+                            <span>🚨 Emergency First Responders</span>
+                            <span>911</span>
+                        </a>
+                        <a href="tel:8158027172" class="hazard-card" style="margin: 0;">
+                            <div>
+                                <strong style="font-size: 13px; color: white;">Kankakee County Sheriff</strong>
+                                <p style="font-size: 11px; color: #94a3b8;">3000 S Justice Way, Kankakee, IL</p>
+                            </div>
+                            <span style="color: #38bdf8; font-weight: bold; font-size: 12px;">(815) 802-7172</span>
+                        </a>
+                    </div>
+                `;
+            }
 
-            const facility = FACILITIES[activeFacility];
-
-            const filteredIncidents = useMemo(() => {
-                if (!searchQuery.trim()) return INCIDENTS;
-                return INCIDENTS.filter(i => 
-                    i.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                    i.category.toLowerCase().includes(searchQuery.toLowerCase())
-                );
-            }, [searchQuery]);
-
-            return h('div', { className: 'max-w-md mx-auto w-full bg-slate-900 min-h-screen flex flex-col justify-between relative pb-20 shadow-2xl border-x border-slate-800' },
-                h('header', { className: 'sticky top-0 z-40 bg-slate-950/95 backdrop-blur border-b border-slate-800 p-3 shadow-md' },
-                    h('div', { className: 'flex items-center justify-between gap-2' },
-                        h('div', { className: 'flex items-center space-x-2' },
-                            h('div', { className: 'bg-red-600 text-white p-2 rounded-xl shadow-lg flex items-center justify-center' },
-                                h('i', { 'data-lucide': 'shield-alert', className: 'w-6 h-6' })
-                            ),
-                            h('div', null,
-                                h('h1', { className: 'font-bold text-base text-white leading-tight' }, 'UpliftedCare'),
-                                h('p', { className: 'text-xs text-red-400 font-semibold tracking-wider uppercase' }, 'Emergency Preparedness')
-                            )
-                        ),
-                        h('a', { 
-                            href: 'tel:911', 
-                            className: 'pulse-red bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-xl text-xs font-black flex items-center gap-1.5 shadow-lg active:scale-95 transition' 
-                        },
-                            h('i', { 'data-lucide': 'phone-call', className: 'w-4 h-4' }),
-                            'CALL 911'
-                        )
-                    ),
-                    h('div', { className: 'mt-3 flex items-center justify-between gap-2 bg-slate-900 p-1.5 rounded-xl border border-slate-800' },
-                        h('div', { className: 'flex text-xs font-medium bg-slate-950 p-0.5 rounded-lg border border-slate-800 flex-1' },
-                            h('button', { 
-                                onClick: () => setActiveFacility('main'),
-                                className: `flex-1 py-1.5 text-center rounded-md transition ${activeFacility === 'main' ? 'bg-red-600 text-white font-bold shadow' : 'text-slate-400 hover:text-white'}`
-                            }, 'Main Bldg'),
-                            h('button', { 
-                                onClick: () => setActiveFacility('grief'),
-                                className: `flex-1 py-1.5 text-center rounded-md transition ${activeFacility === 'grief' ? 'bg-red-600 text-white font-bold shadow' : 'text-slate-400 hover:text-white'}`
-                            }, 'Grief Center')
-                        ),
-                        h('button', { 
-                            onClick: () => setCodeWordModal(true),
-                            className: 'bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 transition'
-                        },
-                            h('i', { 'data-lucide': 'user-check', className: 'w-3.5 h-3.5' }),
-                            'Dr. Armstrong'
-                        )
-                    )
-                ),
-                h('main', { className: 'p-4 flex-1' },
-                    h('div', { className: 'bg-slate-800/80 border border-slate-700/80 rounded-xl p-3 mb-4 text-xs space-y-1' },
-                        h('div', { className: 'flex items-center justify-between text-slate-300 font-medium' },
-                            h('span', { className: 'flex items-center gap-1 text-red-400 font-bold' },
-                                h('i', { 'data-lucide': 'map-pin', className: 'w-3.5 h-3.5' }),
-                                ' ', facility.name
-                            ),
-                            h('span', { className: 'text-slate-400 text-[10px] truncate max-w-[150px]' }, facility.address)
-                        ),
-                        h('div', { className: 'grid grid-cols-2 gap-2 text-[11px] pt-1 border-t border-slate-700/50' },
-                            h('div', null, h('span', { className: 'text-slate-400' }, 'Shelter: '), h('span', { className: 'text-slate-200 font-semibold' }, facility.shelter)),
-                            h('div', null, h('span', { className: 'text-slate-400' }, 'Evac Zone: '), h('span', { className: 'text-slate-200 font-semibold' }, facility.evacuation))
-                        )
-                    ),
-                    viewMode === 'incidents' && !selectedIncident && h('div', null,
-                        h('div', { className: 'relative mb-4' },
-                            h('i', { 'data-lucide': 'search', className: 'w-4 h-4 absolute left-3 top-3 text-slate-400' }),
-                            h('input', { 
-                                type: 'text',
-                                placeholder: 'Search emergency incident or protocol...',
-                                value: searchQuery,
-                                onChange: (e) => setSearchQuery(e.target.value),
-                                className: 'w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-red-500 transition'
-                            })
-                        ),
-                        h('div', { className: 'flex items-center justify-between mb-2' },
-                            h('h2', { className: 'text-xs font-bold uppercase tracking-wider text-slate-400' }, 'Emergency Quick Guides'),
-                            h('span', { className: 'text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full' }, `${filteredIncidents.length} Hazards`)
-                        ),
-                        h('div', { className: 'grid grid-cols-1 gap-2.5' },
-                            filteredIncidents.map(incident => 
-                                h('button', {
-                                    key: incident.id,
-                                    onClick: () => setSelectedIncident(incident.id),
-                                    className: 'w-full text-left bg-slate-800/90 hover:bg-slate-800 border border-slate-700/60 hover:border-slate-600 rounded-xl p-3 flex items-center justify-between transition active:scale-[0.99] group shadow-sm'
-                                },
-                                    h('div', { className: 'flex items-center space-x-3' },
-                                        h('div', { className: `${incident.color} p-2.5 rounded-xl text-white shadow-md flex items-center justify-center shrink-0` },
-                                            h('i', { 'data-lucide': incident.icon || 'alert-circle', className: 'w-5 h-5' })
-                                        ),
-                                        h('div', null,
-                                            h('h3', { className: 'text-sm font-bold text-slate-100 group-hover:text-red-400 transition' }, incident.title),
-                                            h('p', { className: 'text-[11px] text-slate-400' }, incident.category)
-                                        )
-                                    ),
-                                    h('div', { className: 'flex items-center gap-2' },
-                                        h('span', { className: 'text-[10px] font-bold px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300' }, incident.badge),
-                                        h('i', { 'data-lucide': 'chevron-right', className: 'w-4 h-4 text-slate-500 group-hover:text-slate-300' })
-                                    )
-                                )
-                            )
-                        )
-                    ),
-                    selectedIncident && h(IncidentDetailModule, { incidentId: selectedIncident, facility: facility, onBack: () => setSelectedIncident(null) }),
-                    viewMode === 'contacts' && h(ContactsModule, { facility: facility })
-                ),
-                codeWordModal && h('div', { className: 'fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4' },
-                    h('div', { className: 'bg-slate-900 border border-amber-500/50 rounded-2xl p-5 max-w-sm w-full space-y-4 shadow-2xl relative' },
-                        h('button', { onClick: () => setCodeWordModal(false), className: 'absolute top-3 right-3 text-slate-400 hover:text-white p-1' },
-                            h('i', { 'data-lucide': 'x', className: 'w-5 h-5' })
-                        ),
-                        h('div', { className: 'flex items-center space-x-3 border-b border-slate-800 pb-3' },
-                            h('div', { className: 'bg-amber-500/20 text-amber-400 p-2.5 rounded-xl border border-amber-500/30' },
-                                h('i', { 'data-lucide': 'shield-alert', className: 'w-6 h-6' })
-                            ),
-                            h('div', null,
-                                h('h3', { className: 'font-bold text-white text-base' }, 'Dr. Armstrong Protocol'),
-                                h('p', { className: 'text-xs text-amber-400 font-medium' }, 'Discreet Threat Distress Code')
-                            )
-                        ),
-                        h('div', { className: 'space-y-3 text-xs text-slate-300 leading-relaxed' },
-                            h('p', { className: 'bg-amber-950/40 border border-amber-900/50 text-amber-200 p-2.5 rounded-lg' },
-                                h('strong', null, 'When to use: '), 'Use when trapped in a hostile situation and unable to request police directly.'
-                            ),
-                            h('div', { className: 'space-y-1' },
-                                h('span', { className: 'font-bold text-slate-200' }, 'Verbal Script Example:'),
-                                h('div', { className: 'bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-[11px] text-slate-200 leading-normal select-all' },
-                                    '"Hello. This is [Your Name]. I need you to page ',
-                                    h('span', { className: 'text-amber-400 font-bold underline' }, 'Dr. Armstrong'),
-                                    ' immediately. We have had some complications here. Please tell him/her to come to ',
-                                    h('span', { className: 'text-red-400 font-bold' }, '[Your Current Address]'),
-                                    ' as soon as possible. Tell him/her to come right on into the house."'
-                                )
-                            )
-                        ),
-                        h('div', { className: 'pt-2 flex gap-2' },
-                            h('a', { href: 'tel:911', className: 'flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 rounded-xl text-xs text-center flex items-center justify-center gap-1.5 shadow' },
-                                h('i', { 'data-lucide': 'phone', className: 'w-4 h-4' }), ' Call 911 Directly'
-                            ),
-                            h('button', { onClick: () => setCodeWordModal(false), className: 'px-4 bg-slate-800 text-slate-300 hover:text-white rounded-xl text-xs font-semibold' }, 'Close')
-                        )
-                    )
-                ),
-                h('nav', { className: 'fixed bottom-0 max-w-md w-full bg-slate-950/95 backdrop-blur border-t border-slate-800 px-3 py-2 flex justify-around items-center z-40' },
-                    h('button', { 
-                        onClick: () => { setViewMode('incidents'); setSelectedIncident(null); },
-                        className: `flex flex-col items-center gap-1 text-[10px] font-medium transition ${viewMode === 'incidents' ? 'text-red-500 font-bold' : 'text-slate-400 hover:text-slate-200'}`
-                    },
-                        h('i', { 'data-lucide': 'alert-triangle', className: 'w-5 h-5' }),
-                        'Hazards'
-                    ),
-                    h('button', { 
-                        onClick: () => { setViewMode('contacts'); setSelectedIncident(null); },
-                        className: `flex flex-col items-center gap-1 text-[10px] font-medium transition ${viewMode === 'contacts' ? 'text-red-500 font-bold' : 'text-slate-400 hover:text-slate-200'}`
-                    },
-                        h('i', { 'data-lucide': 'phone', className: 'w-5 h-5' }),
-                        'Contacts'
-                    )
-                )
-            );
+            main.innerHTML = html;
         }
 
-        function IncidentDetailModule({ incidentId, facility, onBack }) {
-            return h('div', { className: 'space-y-4' },
-                h('button', { 
-                    onClick: onBack,
-                    className: 'flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-white transition bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700'
-                },
-                    h('i', { 'data-lucide': 'arrow-left', className: 'w-4 h-4' }), ' Back to Incident List'
-                ),
-                h('div', { className: 'flex items-center space-x-3 border-b border-slate-800 pb-3' },
-                    h('div', { className: 'bg-red-600 p-2.5 rounded-xl text-white shadow-md' },
-                        h('i', { 'data-lucide': 'shield-alert', className: 'w-6 h-6' })
-                    ),
-                    h('div', null,
-                        h('h2', { className: 'text-base font-bold text-white leading-tight' }, INCIDENTS.find(i => i.id === incidentId)?.title),
-                        h('span', { className: 'text-[10px] text-red-400 font-semibold tracking-wider uppercase' }, 'Action Checklist & Response Guide')
-                    )
-                ),
-                incidentId === 'active-shooter' ? h('div', { className: 'space-y-4 text-xs' },
-                    h('div', { className: 'bg-red-950/50 border border-red-800 p-3 rounded-xl space-y-2' },
-                        h('div', { className: 'flex items-center gap-2 text-red-400 font-bold text-sm' },
-                            h('i', { 'data-lucide': 'alert-octagon', className: 'w-5 h-5' }), ' Panic Alarm Locations'
-                        ),
-                        h('p', { className: 'text-slate-300' }, h('strong', null, `Current Facility (${facility.name}): `), facility.panicButton)
-                    ),
-                    h('div', { className: 'bg-slate-800 p-3 rounded-xl space-y-2 border border-slate-700' },
-                        h('div', { className: 'text-xs font-bold text-emerald-400' }, '1. EVACUATE (RUN)'),
-                        h('p', { className: 'text-slate-300' }, 'Have an escape route in mind. Evacuate regardless of whether others follow. Call 911 when safe.')
-                    ),
-                    h('div', { className: 'bg-slate-800 p-3 rounded-xl space-y-2 border border-slate-700' },
-                        h('div', { className: 'text-xs font-bold text-amber-400' }, '2. HIDE OUT (HIDE)'),
-                        h('p', { className: 'text-slate-300' }, 'Hide in a locked room. Blockade door. SILENCE CELL PHONES completely (turn off vibration).')
-                    ),
-                    h('div', { className: 'bg-slate-800 p-3 rounded-xl space-y-2 border border-slate-700' },
-                        h('div', { className: 'text-xs font-bold text-red-400' }, '3. TAKE ACTION (FIGHT)'),
-                        h('p', { className: 'text-slate-300' }, 'As absolute last resort, act as aggressively as possible to incapacitate the shooter.')
-                    )
-                ) : h('div', { className: 'bg-slate-800 p-4 rounded-xl text-xs text-slate-300' },
-                    'Standard emergency protocols apply. Follow supervisor and local emergency responders.'
-                )
-            );
-        }
-
-        function ContactsModule({ facility }) {
-            return h('div', { className: 'space-y-4' },
-                h('div', { className: 'border-b border-slate-800 pb-3' },
-                    h('h2', { className: 'text-base font-bold text-white leading-tight' }, 'Emergency Contacts Directory'),
-                    h('p', { className: 'text-xs text-slate-400' }, 'Integrated agency and community response partners.')
-                ),
-                h('div', { className: 'space-y-2' },
-                    h('a', { 
-                        href: 'tel:911', 
-                        className: 'w-full bg-red-600/90 hover:bg-red-600 text-white p-3 rounded-xl font-bold text-sm flex items-center justify-between shadow border border-red-500' 
-                    },
-                        h('span', { className: 'flex items-center gap-2' },
-                            h('i', { 'data-lucide': 'phone-call', className: 'w-5 h-5' }), ' Emergency First Responders'
-                        ),
-                        h('span', { className: 'font-mono text-base' }, '911')
-                    ),
-                    h('a', { 
-                        href: 'tel:8158027172', 
-                        className: 'w-full bg-slate-800 hover:bg-slate-700/80 text-slate-100 p-3 rounded-xl text-xs flex items-center justify-between border border-slate-700' 
-                    },
-                        h('div', null,
-                            h('strong', { className: 'block text-slate-200' }, "Kankakee County Sheriff's Office"),
-                            h('span', { className: 'text-[10px] text-slate-400' }, '3000 S Justice Way, Kankakee, IL')
-                        ),
-                        h('span', { className: 'font-mono text-xs font-bold text-sky-400' }, '(815) 802-7172')
-                    )
-                )
-            );
-        }
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(h(App));
+        // Initial Render
+        render();
     </script>
 </body>
 </html>
