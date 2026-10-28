@@ -458,13 +458,15 @@
                         <i data-lucide="arrow-left" className="w-4 h-4"></i> Back to How-To Guides
                     </button>
 
-                    <div className="flex items-center space-x-3 border-b border-slate-800 pb-3">
-                        <div className={`${task.color} p-2.5 rounded-xl text-white shadow-md`}>
-                            <i data-lucide={task.icon} className="w-6 h-6"></i>
-                        </div>
-                        <div>
-                            <h2 className="text-base font-bold text-white leading-tight">{task.title}</h2>
-                            <span className="text-[10px] text-sky-400 font-semibold tracking-wider uppercase">Infographic Guide & Action Steps</span>
+                    <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div className="flex items-center space-x-3">
+                            <div className={`${task.color} p-2.5 rounded-xl text-white shadow-md`}>
+                                <i data-lucide={task.icon} className="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h2 className="text-base font-bold text-white leading-tight">{task.title}</h2>
+                                <span className="text-[10px] text-sky-400 font-semibold tracking-wider uppercase">Infographic Guide & Action Steps</span>
+                            </div>
                         </div>
                     </div>
 
@@ -589,6 +591,8 @@
 
         // --- SUB-COMPONENT: DETAILED INCIDENT ACTIONS ---
         function IncidentDetailModule({ incidentId, facility, onBack }) {
+            const incident = INCIDENTS.find(i => i.id === incidentId);
+
             // Incidents requiring Shelter in Place
             const isShelterIncident = ['tornado', 'earthquake', 'power-outage'].includes(incidentId);
             
@@ -617,10 +621,14 @@
                                             A. EVACUATE (RUN)
                                         </div>
                                         <ul className="text-xs text-slate-300 space-y-1 pl-6 list-disc">
-                                            <li>Have escape route in mind. Warn others not to enter.</li>
-                                            <li>Evacuate regardless of whether others follow. Leave belongings.</li>
+                                            <li>Upon hearing the alarm, remain calm, leave belongings and head towards neares escape path.</li>
+                                            <li>Warn others outside not to enter.</li>
+                                            <li>Evacuate regardless of whether others follow. Do NOT wait for others.</li>
                                             <li>Keep hands visible, fingers spread. Follow police orders.</li>
-                                            <li>Call 911 when safe. Do not attempt to move wounded.</li>
+                                            <li>Avoid making quick movements toward officers. Avoid pointing, screaming, and/or yelling.</li>
+                                            <li>Do not stop to ask officers for help or directions while evacuating, just proceed in the                  direction of the rally point.</li>
+                                            <li>If police have not yet arrived, only call 911 after you have established yourself in a safe place.</li>
+                                            <li> Do not attempt to move wounded.</li>
                                         </ul>
                                     </div>
 
@@ -687,7 +695,7 @@
                                 </div>
 
                                 <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 text-xs text-slate-300">
-                                    <strong className="text-slate-100">Front Office Duty:</strong> Front Office staff must grab the <em>Guest Sign-In Book</em> during evacuation. Team leaders report headcount to Incident Commander.
+                                    <strong className="text-slate-100">Front Office Duty:</strong> Front Office or Front Desk Staff must grab the <em>Guest Sign-In Book</em> during evacuation. Team leaders report headcount to Incident Commander.
                                 </div>
                             </div>
                         );
@@ -721,7 +729,14 @@
                     case 'tornado':
                         return (
                             <div className="space-y-3 text-xs">
+                                
                                 <div className="bg-slate-800 p-3.5 rounded-xl border border-slate-700 space-y-2">
+                                <ul className="space-y-1.5 text-slate-300 list-disc pl-5">
+<a href="https://www.accuweather.com/en/us/bourbonnais/60914/weather-radar/2240593"><h4 className="font-bold text-orange-600">LIVE RADAR LINK</h4></a>
+                                                                                
+                                    </ul>
+                                </div>
+<div className="bg-slate-800 p-3.5 rounded-xl border border-slate-700 space-y-2">
                                     <h4 className="font-bold text-sky-400">Leadership Actions</h4>
                                     <ul className="space-y-1.5 text-slate-300 list-disc pl-5">
                                         <li>Leadership will monitor severe weather as it is occurring and send emails and/or text messages to staff updating them on the location and direction of the storm.</li>
@@ -729,6 +744,8 @@
                                         <li>If storm directly affects one of the UpliftedCare locations, instructions will be paged overhead and/or in person to evacuate to the designated storm shelters.</li>
                                     </ul>
                                 </div>
+
+
 
                                 <div className="bg-slate-800 p-3.5 rounded-xl border border-slate-700 space-y-2">
                                     <h4 className="font-bold text-slate-200">Field / General Staff Actions</h4>
@@ -911,16 +928,25 @@
                         <i data-lucide="arrow-left" className="w-4 h-4"></i> Back to Incident List
                     </button>
 
-                    <div className="flex items-center space-x-3 border-b border-slate-800 pb-3">
-                        <div className="bg-red-600 p-2.5 rounded-xl text-white shadow-md">
-                            <i data-lucide="shield-alert" className="w-6 h-6"></i>
+                    <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div className="flex items-center space-x-3 pr-2">
+                            <div className="bg-red-600 p-2.5 rounded-xl text-white shadow-md shrink-0">
+                                <i data-lucide="shield-alert" className="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h2 className="text-base font-bold text-white leading-tight">
+                                    {incident?.title}
+                                </h2>
+                                <span className="text-[10px] text-red-400 font-semibold tracking-wider uppercase">Action Checklist & Response Guide</span>
+                            </div>
                         </div>
-                        <div>
-                            <h2 className="text-base font-bold text-white leading-tight">
-                                {INCIDENTS.find(i => i.id === incidentId)?.title}
-                            </h2>
-                            <span className="text-[10px] text-red-400 font-semibold tracking-wider uppercase">Action Checklist & Response Guide</span>
-                        </div>
+
+                        {/* TOP RIGHT 50% LARGER HAZARD LOGO */}
+                        {incident && (
+                            <div className={`${incident.color} p-2 rounded-xl text-white shadow-lg flex items-center justify-center shrink-0`}>
+                                <i data-lucide={incident.icon || 'alert-circle'} className="w-10 h-10"></i>
+                            </div>
+                        )}
                     </div>
 
                     {/* CONTEXTUAL SHELTER LOCATION BAR */}
